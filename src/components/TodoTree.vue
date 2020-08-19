@@ -10,24 +10,28 @@
                     :expand-on-click-node="false"
                     @node-drop="handleDrop"
             >
-      <span class="custom-tree-node" slot-scope="{ node, data }">
-        <span>{{ node.label }}</span>
-        <span>
-          <el-button
-                  class="append_button"
-                  type="text"
-                  size="mini"
-                  @click="() => append(data)">
-            Append
-          </el-button>
-          <el-button
-                  type="text"
-                  size="mini"
-                  @click="() => remove(node, data)">
-            Delete
-          </el-button>
-        </span>
-      </span>
+                <span class="custom-tree-node" slot-scope="{ node, data }">
+                    <span>
+                        {{ node.label }}
+                    </span>
+                    <span>
+                        <el-button
+                            class="append_button"
+                            type="text"
+                            size="mini"
+                            @click="() => append(data)"
+                        >
+                            Append
+                        </el-button>
+                        <el-button
+                            type="text"
+                            size="mini"
+                            @click="() => remove(node, data)"
+                        >
+                            Delete
+                        </el-button>
+                    </span>
+                </span>
             </el-tree>
         </div>
     </div>
