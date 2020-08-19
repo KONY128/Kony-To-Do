@@ -34,6 +34,17 @@
                 </span>
             </el-tree>
         </div>
+        <el-dialog title="输入待办事项内容" :visible.sync="dialogFormVisible">
+            <el-form :model="form">
+                <el-form-item label="名称" label-width="120px">
+                    <el-input v-model="form.name" autocomplete="off" placeholder="待办事项名称。 示例：学习高数"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="confirmAppend()">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -60,17 +71,18 @@
                         label: '三级 1-1-2'
                     }]
                 }]
-            }, {
-                id: 2,
-                label: '一级 2',
-                children: [{
-                    id: 5,
-                    label: '二级 2-1'
+                },
+                    {
+                    id: 2,
+                    label: '一级 2',
+                    children: [{
+                        id: 5,
+                        label: '二级 2-1'
+                    }, {
+                        id: 6,
+                        label: '二级 2-2'
+                    }]
                 }, {
-                    id: 6,
-                    label: '二级 2-2'
-                }]
-            }, {
                 id: 3,
                 label: '一级 3',
                 children: [{
@@ -80,9 +92,16 @@
                     id: 8,
                     label: '二级 3-2'
                 }]
-            }];
+            }
+            ];
             return {
-                data: JSON.parse(JSON.stringify(data))
+                tmpNewChild: null,
+                tmpData: null,
+                dialogFormVisible: false,
+                data: JSON.parse(JSON.stringify(data)),
+                form: {
+                    name: "",
+                },
             }
         },
         created() {
@@ -90,9 +109,21 @@
             this.load();
         },
         methods: {
+            // 按下append按钮，弹出弹窗
             append(data) {
+                // 显示弹窗
+                this.dialogFormVisible = true;
+                // 将数据放入tmpData，方便confirmAppend函数调用
+                this.tmpData = data;
+            },
+
+            // 点击确认按钮以后
+            confirmAppend(){
+                // 关闭弹窗
+                this.dialogFormVisible = false;
+                let data = this.tmpData;
                 // 准备数据
-                const newChild = { id: id++, label: 'testtest', children: [] };
+                const newChild = { id: id++, label: this.form.name, children: [] };
                 // 对于没有child属性的情况，要创建children避免报错
                 if (!data.children) {
                     this.$set(data, 'children', []);
