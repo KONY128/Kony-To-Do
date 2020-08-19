@@ -35,9 +35,14 @@
             </el-tree>
         </div>
         <el-dialog title="输入待办事项内容" :visible.sync="dialogFormVisible">
-            <el-form :model="form">
-                <el-form-item label="名称" label-width="120px">
-                    <el-input v-model="form.name" autocomplete="off" placeholder="待办事项名称。 示例：学习高数"></el-input>
+            <el-form :model="form" :rules="rules" ref="form">
+                <el-form-item label="名称" label-width="120px" prop="name">
+                    <el-input
+                            v-model="form.name"
+                            autocomplete="off"
+                            placeholder="待办事项名称。 示例：学习高数"
+                            show-word-limit
+                            maxlength="20"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -94,11 +99,17 @@
                 }]
             }
             ];
+            const rules = {
+                name: [
+                    { required: true, message: '请输入待办事项名称', trigger: 'blur' },
+                ]};
+
             return {
                 tmpNewChild: null,
                 tmpData: null,
                 dialogFormVisible: false,
                 data: JSON.parse(JSON.stringify(data)),
+                rules: JSON.parse(JSON.stringify(rules)),
                 form: {
                     name: "",
                 },
@@ -119,19 +130,27 @@
 
             // 点击确认按钮以后
             confirmAppend(){
-                // 关闭弹窗
-                this.dialogFormVisible = false;
-                let data = this.tmpData;
-                // 准备数据
-                const newChild = { id: id++, label: this.form.name, children: [] };
-                // 对于没有child属性的情况，要创建children避免报错
-                if (!data.children) {
-                    this.$set(data, 'children', []);
-                }
-                // 插入数据
-                data.children.push(newChild);
-                // 持久化
-                this.save();
+                // 验证表单内容
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        // 关闭弹窗
+                        this.dialogFormVisible = false;
+                        let data = this.tmpData;
+                        // 准备数据
+                        const newChild = { id: id++, label: this.form.name, children: [] };
+                        // 对于没有child属性的情况，要创建children避免报错
+                        if (!data.children) {
+                            this.$set(data, 'children', []);
+                        }
+                        // 插入数据
+                        data.children.push(newChild);
+                        // 持久化
+                        this.save();
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
             },
 
             remove(node, data) {
