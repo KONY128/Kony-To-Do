@@ -32,13 +32,24 @@
                         >
                             Append
                         </el-button>
-                        <el-button
-                            type="text"
-                            size="mini"
-                            @click="() => remove(node, data)"
+                        <el-popconfirm
+                                style="margin-left: 5px;"
+                                :confirmButtonText='popConfirm.confirmText'
+                                :cancelButtonText='popConfirm.cancelText'
+                                icon="el-icon-info"
+                                iconColor="red"
+                                :title="popConfirm.title"
+                                @onConfirm="remove(node,data)"
                         >
-                            Delete
-                        </el-button>
+                            <el-button
+                                    slot="reference"
+                                    type="text"
+                                    size="mini"
+                                    @click="() => updatePopConfirm(data)"
+                            >
+                                Finish
+                            </el-button>
+                        </el-popconfirm>
                     </span>
                 </span>
             </el-tree>
@@ -107,6 +118,11 @@
         ]};
     const form = {
         name: ""
+    };
+    const popConfirm = {
+            title: "确定该项完成了吗",
+            cancelText: "没呢",
+            confirmText: "完成！",
     }
     export default {
         name: "TodoTree",
@@ -121,6 +137,7 @@
                 data: JSON.parse(JSON.stringify(data)),
                 rules: JSON.parse(JSON.stringify(rules)),
                 form: JSON.parse(JSON.stringify(form)),
+                popConfirm: JSON.parse(JSON.stringify(popConfirm)),
             }
         },
         created() {
@@ -227,7 +244,14 @@
                 if (this.$refs['form']!==undefined) {
                     this.$refs['form'].resetFields();
                 }
-            }
+            },
+
+            // 点击Finish后更新popConfirm内容
+            updatePopConfirm(data){
+                this.popConfirm = {};
+                this.popConfirm = JSON.parse(JSON.stringify(popConfirm));
+                this.popConfirm.title = "确定 " + data.label + " 完成了吗"
+            },
         }
     };
 </script>
