@@ -3,11 +3,13 @@
         <div class="block">
             <p>{{label}}</p>
             <el-tree
+                    draggable
                     :data="data"
-                    show-checkbox
                     node-key="id"
                     default-expand-all
-                    :expand-on-click-node="false">
+                    :expand-on-click-node="false"
+                    @node-drop="handleDrop"
+            >
       <span class="custom-tree-node" slot-scope="{ node, data }">
         <span>{{ node.label }}</span>
         <span>
@@ -108,16 +110,26 @@
                 this.save();
             },
 
+            // 节点拖拽成功时的触发事件
+            handleDrop(draggingNode, dropNode, dropType, ev) {
+                console.log('tree drop: ', dropNode.label, dropType, JSON.stringify(ev));
+                this.save();
+            },
+
+            // 持久化
             save(){
                 localStorage.setItem(this.label, JSON.stringify(this.data));
                 localStorage.setItem(this.label + id.toString(), id.toString());
             },
 
+            // 从持久化层中读取
             load(){
                 this.data = []
                 this.data = JSON.parse(localStorage.getItem(this.label));
                 id = parseInt(localStorage.getItem(this.label + id.toString()));
             },
+
+
         }
     };
 </script>
