@@ -48,7 +48,7 @@ If you have other tasks to join during the period, please just follow the princi
 
 Here's an demo you can refer to : 🎁
 
-![image-20200820084602949](README.assets/image-20200820084602949.png)
+![image-20200820123320498](README.assets/image-20200820123320498.png)
 
 In this way, you can perform each task and goal efficiently and without omission. 😁
 
