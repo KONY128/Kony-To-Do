@@ -2,7 +2,7 @@
 
 ## How To Fun? 🎉
 
-visit https://todo.kony128.xyz/ for fun! 👔
+visit http://todo.kony128.xyz/ for fun! 👔
 
 ## What is this? ❓
 
