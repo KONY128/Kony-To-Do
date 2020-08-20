@@ -1,9 +1,9 @@
 <template>
     <div class="TodoViewContainer">
         <div class="TodoViewTreeContainer">
-            <TodoTree label="紧急 且 重要"></TodoTree>
+            <TodoTree label="Urgent and important"></TodoTree>
             <div class="vertical-divider"></div>
-            <TodoTree label="紧急 但 不重要"></TodoTree>
+            <TodoTree label="Urgent but not important"></TodoTree>
         </div>
 
 
@@ -11,9 +11,9 @@
         <el-divider></el-divider>
         <div>
             <div class="TodoViewTreeContainer">
-                <TodoTree label="不紧急 但 重要"></TodoTree>
+                <TodoTree label="Not urgent but important"></TodoTree>
                 <div class="vertical-divider"></div>
-                <TodoTree label="不紧急 且 不重要"></TodoTree>
+                <TodoTree label="Not urgent and not important"></TodoTree>
             </div>
         </div>
 

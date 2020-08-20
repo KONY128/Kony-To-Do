@@ -30,10 +30,10 @@
                             size="mini"
                             @click="() => append(data)"
                         >
-                            Append
+                            Append sub-plan
                         </el-button>
+                        <span class="button_divider"></span>
                         <el-popconfirm
-                                style="margin-left: 5px;"
                                 :confirmButtonText='popConfirm.confirmText'
                                 :cancelButtonText='popConfirm.cancelText'
                                 icon="el-icon-info"
@@ -54,20 +54,20 @@
                 </span>
             </el-tree>
         </div>
-        <el-dialog title="输入待办事项内容" :visible.sync="dialogFormVisible">
+        <el-dialog title="Enter the to-do content" :visible.sync="dialogFormVisible">
             <el-form :model="form" :rules="rules" ref="form">
-                <el-form-item label="名称" label-width="120px" prop="name">
+                <el-form-item label="name" label-width="120px" prop="name">
                     <el-input
                             v-model="form.name"
                             autocomplete="off"
-                            placeholder="待办事项名称。 示例：学习高数"
+                            placeholder="to-do name. Example: study algorithm"
                             show-word-limit
-                            maxlength="20"></el-input>
+                            maxlength="35"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="confirmAppend()">确 定</el-button>
+                <el-button @click="dialogFormVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="confirmAppend()">Confirm</el-button>
             </div>
         </el-dialog>
     </div>
@@ -77,52 +77,52 @@
     let id = 1000;
     const data = [{
         id: 1,
-        label: '一级 1',
+        label: 'level one 1',
         children: [{
             id: 4,
-            label: '二级 1-1',
+            label: 'level two 1-1',
             children: [{
                 id: 9,
-                label: '三级 1-1-1'
+                label: 'level three 1-1-1'
             }, {
                 id: 10,
-                label: '三级 1-1-2'
+                label: 'level three 1-1-2'
             }]
         }]
     },
         {
             id: 2,
-            label: '一级 2',
+            label: 'level one 2',
             children: [{
                 id: 5,
-                label: '二级 2-1'
+                label: 'level two 2-1'
             }, {
                 id: 6,
-                label: '二级 2-2'
+                label: 'level two 2-2'
             }]
         }, {
             id: 3,
-            label: '一级 3',
+            label: 'level one 3',
             children: [{
                 id: 7,
-                label: '二级 3-1'
+                label: 'level two 3-1'
             }, {
                 id: 8,
-                label: '二级 3-2'
+                label: 'level two 3-2'
             }]
         }
     ];
     const rules = {
         name: [
-            { required: true, message: '请输入待办事项名称', trigger: 'blur' },
+            { required: true, message: 'please enter the name of the to-do', trigger: 'blur' },
         ]};
     const form = {
         name: ""
     };
     const popConfirm = {
-            title: "确定该项完成了吗",
-            cancelText: "没呢",
-            confirmText: "完成！",
+            title: "Confirm finishing this to-do?",
+            cancelText: "Nope!",
+            confirmText: "YES!",
     }
     export default {
         name: "TodoTree",
@@ -165,8 +165,8 @@
                         let data = this.tmpData;
                         /*
                             判断data是否为空
-                            为空：添加一级表单
-                            不为空：添加一级表单以外的表单
+                            为空：添加level one表单
+                            不为空：添加level one表单以外的表单
                          */
                         if (data != null){
                             // 准备数据
@@ -181,7 +181,12 @@
                             this.save();
                         }
                         else{
+                            // 准备数据
                             const newToDo = { id: id++, label: this.form.name };
+                            // 如果data是空的，要注意先初始化data
+                            if (this.data == null){
+                                this.data = [];
+                            }
                             this.data.push(newToDo);
                         }
                         // 持久化
@@ -221,7 +226,15 @@
             load(){
                 this.data = []
                 this.data = JSON.parse(localStorage.getItem(this.label));
+                if (this.data == null){
+                    this.data = []
+                }
                 id = parseInt(localStorage.getItem(this.label + "id"));
+                if (id == null || id <= 0 || typeof(id) == "undefined" || isNaN(id)){
+                    id = 2000;
+                }
+                console.log(JSON.stringify(this.data));
+                console.log(id);
             },
 
             // 点击newToDo按钮
@@ -230,7 +243,7 @@
                 this.clearForm();
                 // 显示弹窗
                 this.dialogFormVisible = true;
-                // 将null放入tmpData，方便confirmAppend函数鉴别这是一级表单
+                // 将null放入tmpData，方便confirmAppend函数鉴别这是level one表单
                 this.tmpData = null;
             },
 
@@ -250,13 +263,19 @@
             updatePopConfirm(data){
                 this.popConfirm = {};
                 this.popConfirm = JSON.parse(JSON.stringify(popConfirm));
-                this.popConfirm.title = "确定 " + data.label + " 完成了吗"
+                this.popConfirm.title = "Confirm finishing  " + data.label + " ?"
             },
         }
     };
 </script>
 
 <style scoped>
+    .button_divider{
+        width: 1px;
+        border-right: solid 1px #DCDFE6;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
     .custom-tree-container{
         min-width: 500px;
     }
