@@ -15,8 +15,10 @@
                     draggable
                     :data="data"
                     node-key="id"
-                    default-expand-all
+                    :highlight-current="false"
                     :expand-on-click-node="false"
+                    :indent="24"
+                    empty-text="👆 no data"
                     @node-drop="handleDrop"
             >
                 <span class="custom-tree-node" slot-scope="{ node, data }">
