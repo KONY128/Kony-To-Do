@@ -2,11 +2,11 @@
 
 ## How To Fun? 🎉
 
-visit http://todo.kony128.xyz/ for fun! 👔
+visit [demo](https://todo.ehyl12168.xyz/) for fun! 👔
 
 ## What is this? ❓
 
-*Kony To Do* is a **quartered nested draggable to do list** developed by Vue and Element-UI. 🎈
+*Kony To Do* is a **local quartered nested draggable to-do list** developed by Vue and Element-UI. 🎈
 
 You can easily plan your tasks and goals here. 👧
 
